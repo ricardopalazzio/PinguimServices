@@ -21,10 +21,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="tipo_agrupamento_complemento")
+@Audited
 public class TipoAgrupamentoComplemento
   implements Serializable
 {

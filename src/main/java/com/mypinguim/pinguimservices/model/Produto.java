@@ -27,12 +27,14 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
 
 @Entity
 @Table(name="produto")
 @XmlRootElement
+@Audited
 public class Produto
 implements Serializable {
     private static final long serialVersionUID = 1;

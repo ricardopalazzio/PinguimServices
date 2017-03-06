@@ -23,11 +23,13 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="vendedor", uniqueConstraints={@javax.persistence.UniqueConstraint(columnNames={"cpf_cnpj"})})
 @XmlRootElement
+@Audited
 public class Vendedor
   implements Serializable
 {

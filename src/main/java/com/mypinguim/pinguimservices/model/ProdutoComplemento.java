@@ -18,9 +18,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.envers.Audited;
 
 @Entity
 @Table(name="produto_complemento", uniqueConstraints={@javax.persistence.UniqueConstraint(columnNames={"id_produto", "id_complemento", "id_tipo_agrupamento_complemento"})})
+@Audited
 public class ProdutoComplemento
   implements Serializable
 {

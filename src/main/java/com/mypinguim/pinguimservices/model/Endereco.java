@@ -24,32 +24,41 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="endereco")
 @XmlRootElement
+@Audited
 public class Endereco
   implements Serializable
 {
   private static final long serialVersionUID = 1L;
+  
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Column(name="id_endereco")
   private Long idEndereco;
+ 
   @Column(name="endereco", length=200, nullable=false)
   @NotEmpty
   private String endereco;
+  
   @Column(name="bairro", length=30, nullable=false)
   private String bairro;
+  
   @ManyToOne
   @JoinColumn(name="id_cidade", foreignKey=@ForeignKey(name="endereco_cidade_fk"), nullable=false)
   private Cidade cidade;
+  
   @Column(name="cep", length=10)
   @NotEmpty
   private String cep;
+  
   @Column(name="latitude")
   private Double latitude;
+  
   @Column(name="longitude")
   private Double longitude;
   
@@ -60,29 +69,38 @@ public class Endereco
   
   @Column(name="pesquisa_endereco")
   private Boolean pesquisaEndereco = Boolean.valueOf(true);
+ 
   @Column(name="endereco_numero", length=11)
   private String numero;
+  
   @Column(name="endereco_complemento", length=30)
   private String complemento;
+  
   @Enumerated(EnumType.ORDINAL)
   @Column(name="tipo_logradouro")
   private TipoLogradouroEnum tipoLogradouro;
+ 
   @Enumerated(EnumType.ORDINAL)
   @Column(name="tipo_endereco")
   private TipoEnderecoEnum tipoEndereco;
+ 
   @Column(name="referencia", length=300)
   private String referencia;
+ 
   @ManyToOne(fetch=FetchType.LAZY)
   @JoinColumn(name="id_vendedor", foreignKey=@ForeignKey(name="telefone_vendedor_fk"))
   private Vendedor vendedor;
+  
   @ManyToOne(fetch=FetchType.LAZY)
   @JoinColumn(name="id_cliente", foreignKey=@ForeignKey(name="telefone_cliente_fk"))
   private Cliente cliente;
+  
   @XmlTransient
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name="data_alteracao")
   @NotNull
   private Date dataAlteracao;
+  
   @XmlTransient
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name="data_inclusao")

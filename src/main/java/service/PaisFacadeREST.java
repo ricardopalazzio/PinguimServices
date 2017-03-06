@@ -6,6 +6,7 @@
 package service;
 
 import com.mypinguim.pinguimservices.model.Pais;
+import com.mypinguim.pinguimservices.security.Secured;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -13,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -51,8 +53,13 @@ public class PaisFacadeREST extends AbstractFacade<Pais> {
 
     @DELETE
     @Path("{id}")
+    @Secured
     public void remove(@PathParam("id") Long id) {
+        try{
         super.remove(super.find(id));
+        }catch(NotAuthorizedException e){
+            e.printStackTrace();
+        }
     }
 
     @GET

@@ -19,10 +19,12 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.envers.Audited;
 
 @Entity
 @Table(name="forma_pagamento")
 @XmlRootElement
+@Audited
 public class FormaPagamento
   implements Serializable
 {
