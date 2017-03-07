@@ -5,8 +5,11 @@
  */
 package com.mypinguim.pinguimservices.security;
 
+import com.mypinguim.pinguimservices.enumerated.Role;
 import java.io.IOException;
 import javax.annotation.Priority;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -24,6 +27,10 @@ import javax.ws.rs.ext.Provider;
 @Priority(Priorities.AUTHENTICATION)
 public class AuthenticationFilter implements ContainerRequestFilter {
 
+    @Inject
+    @AuthenticatedUser
+    Event<String> userAuthenticatedEvent;
+    
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
@@ -32,12 +39,14 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
         // Check if the HTTP Authorization header is present and formatted correctly 
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader == null || (!authorizationHeader.startsWith("palazzio") && !authorizationHeader.startsWith("denis"))) {
+            ApplicationBean.getMap().clear();
             throw new NotAuthorizedException("Authorization header must be provided");
+           
         }
 
         // Extract the token from the HTTP Authorization header
-        String token = authorizationHeader.substring("Bearer".length()).trim();
+        String token = authorizationHeader.toUpperCase();
 
         try {
 
@@ -50,8 +59,20 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         }
     }
 
-    private void validateToken(String token) throws Exception {
+    private boolean validateToken(String token) throws Exception {
         // Check if it was issued by the server and if it's not expired
         // Throw an Exception if the token is invalid
+        User user = new User();
+        user.setUsername("adminpinguim");
+        user.setToken(token);
+        if(token.equals("PALAZZIO"))
+           user.setRole(Role.ADMINISTRATOR);
+        else
+            user.setRole(Role.MASTER_VENDOR);
+        
+        ApplicationBean.getMap().put(token, user);
+        userAuthenticatedEvent.fire(token);
+        
+        return true;
     }
 }

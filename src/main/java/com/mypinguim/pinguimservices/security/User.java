@@ -5,18 +5,25 @@
  */
 package com.mypinguim.pinguimservices.security;
 
+import com.mypinguim.pinguimservices.enumerated.Role;
 import java.io.Serializable;
+import javax.enterprise.inject.Model;
 
 /**
  *
  * @author ricar
  */
-public class Credentials implements Serializable {
+@Model
+public class User implements Serializable {
 
     private String username;
   
     private String password;
+    
+    private String token;
 
+    private Role role;
+    
     public String getUsername() {
         return username;
     }
@@ -32,5 +39,23 @@ public class Credentials implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+    
+    
 
 }

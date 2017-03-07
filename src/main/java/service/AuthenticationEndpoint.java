@@ -5,7 +5,7 @@
  */
 package service;
 
-import com.mypinguim.pinguimservices.security.Credentials;
+import com.mypinguim.pinguimservices.security.User;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -23,7 +23,7 @@ public class AuthenticationEndpoint {
     @POST
     @Produces("application/json")
     @Consumes("application/x-www-form-urlencoded")
-    public Response authenticateUser(Credentials credentials) {
+    public Response authenticateUser(User credentials) {
 
         try {
 

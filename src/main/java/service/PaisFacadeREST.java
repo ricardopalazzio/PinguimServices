@@ -5,10 +5,15 @@
  */
 package service;
 
+import com.mypinguim.pinguimservices.enumerated.Role;
 import com.mypinguim.pinguimservices.model.Pais;
+import com.mypinguim.pinguimservices.security.AuthenticatedUser;
 import com.mypinguim.pinguimservices.security.Secured;
+import com.mypinguim.pinguimservices.security.User;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
@@ -33,6 +38,9 @@ public class PaisFacadeREST extends AbstractFacade<Pais> {
     @PersistenceContext(unitName = "pinguimPU")
     private EntityManager em;
 
+    @Inject
+    @AuthenticatedUser Instance<User> user;
+    
     public PaisFacadeREST() {
         super(Pais.class);
     }
@@ -40,6 +48,7 @@ public class PaisFacadeREST extends AbstractFacade<Pais> {
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Secured(value = {Role.ADMINISTRATOR , Role.MASTER_VENDOR})
     public void create(Pais entity) {
         super.create(entity);
     }
@@ -53,10 +62,11 @@ public class PaisFacadeREST extends AbstractFacade<Pais> {
 
     @DELETE
     @Path("{id}")
-    @Secured
-    public void remove(@PathParam("id") Long id) {
+    @Secured(value = {Role.ADMINISTRATOR})
+    public void remove(@PathParam("id") Long id  ) {
         try{
-        super.remove(super.find(id));
+            System.out.println("service.PaisFacadeREST.remove()"+"  helooooo "+ user.get().getToken());
+      //  super.remove(super.find(id));
         }catch(NotAuthorizedException e){
             e.printStackTrace();
         }

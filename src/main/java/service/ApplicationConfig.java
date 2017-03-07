@@ -30,6 +30,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.mypinguim.pinguimservices.security.AuthenticationFilter.class);
+        resources.add(com.mypinguim.pinguimservices.security.AuthorizationFilter.class);
         resources.add(service.AuthenticationEndpoint.class);
         resources.add(service.EstadoFacadeREST.class);
         resources.add(service.PaisFacadeREST.class);
